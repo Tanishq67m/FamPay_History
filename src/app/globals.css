@@ -1,16 +1,26 @@
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* FamPay Color Palette Definition */
+  --color-fam-bg: #000000;       /* Pure Black */
+  --color-fam-card: #121212;     /* Surface Grey */
+  --color-fam-accent: #F6A525;   /* Electric Orange */
+  --color-fam-text: #FFFFFF;     /* White */
+  --color-fam-muted: #9CA3AF;    /* Muted Grey */
+  --color-fam-border: #27272a;   /* Subtle Borders */
 
-/* Mobile-First Discipline:
-  We force the body to behave like an app.
-  - No elastic scrolling on the body (we scroll inside the feed container)
-  - Default text color for high contrast
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Global Styles
+   Note: We use standard CSS properties here to avoid "unknown class" errors 
+   during the initial build.
 */
 body {
-  @apply bg-gray-50 text-gray-900 antialiased;
-  /* Prevent pull-to-refresh on mobile browsers if it interferes with our UX */
-  overscroll-behavior-y: none; 
+  background-color: var(--color-fam-bg);
+  color: var(--color-fam-text);
+  font-family: var(--font-sans);
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
 }

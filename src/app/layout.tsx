@@ -17,17 +17,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {/* THE SHOWCASE WRAPPER 
-           - On Mobile: Takes full width/height
-           - On Desktop: Centers a "Phone" in the middle of the screen
-        */}
-        <div className="min-h-screen w-full flex justify-center bg-gray-100">
-          <main className="w-full max-w-[480px] min-h-screen bg-white shadow-xl overflow-hidden relative">
-            {children}
-          </main>
-        </div>
-      </body>
+      <body className={`${inter.className} bg-fam-bg text-fam-text`}>
+  {/* 1. Outer Wrapper: bg-fam-bg (Black) 
+         - This handles large desktop screens.
+  */}
+  <div className="min-h-screen w-full flex justify-center bg-fam-bg">
+    
+    {/* 2. The "Phone" Container: bg-fam-bg (Black)
+         - Changed from bg-white to bg-fam-bg 
+         - Added border-fam-border to make it distinct on desktop
+    */}
+    <main className="w-full max-w-[480px] min-h-screen bg-fam-bg border-x border-fam-border shadow-2xl overflow-hidden relative">
+      {children}
+    </main>
+  </div>
+</body>
     </html>
   );
 }
