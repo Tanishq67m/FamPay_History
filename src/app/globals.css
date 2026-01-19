@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile-First Discipline:
+  We force the body to behave like an app.
+  - No elastic scrolling on the body (we scroll inside the feed container)
+  - Default text color for high contrast
+*/
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  /* Prevent pull-to-refresh on mobile browsers if it interferes with our UX */
+  overscroll-behavior-y: none; 
+}
