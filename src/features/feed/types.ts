@@ -1,36 +1,38 @@
-// src/features/feed/types.ts
+export type TransactionStatus = 'SUCCESS' | 'PENDING' | 'FAILED';
+export type TransactionDirection = 'CREDIT' | 'DEBIT';
+export type PaymentMethod = 'UPI' | 'CARD' | 'WALLET' | 'OTHERS';
+export type TransactionCategory = 'FOOD' | 'TRAVEL' | 'SHOPPING' | 'TRANSFER' | 'OTHERS';
 
-export type TransactionStatus = 'SUCCESS' | 'PENDING' | 'FAILED' | 'REFUNDED';
-export type TransactionDirection = 'CREDIT' | 'DEBIT'; // Money In vs Money Out
-export type PaymentMethod = 'UPI' | 'CARD' | 'NET_BANKING' | 'WALLET';
+export interface Money {
+  amount: number; // Stored in minor units (paise) to avoid float issues, but we can treat as normal for this demo if preferred. Let's stick to standard float for simplicity unless user wants strict int.
+  // Actually, standard practice for simple display is often just number. Let's use number and assume it is the full amount (e.g. 250.50) for simplicity in this frontend demo, or better, minor units.
+  // Let's use minor units (paise) to be robust. 
+  // Update: To keep it easy for the UI, let's store `amount` as the actual display value (e.g., 299) but types usually have currency.
+  value: number;
+  currency: string; // 'INR'
+}
 
 export interface Counterparty {
-  name: string;        // "Zomato", "Rahul S."
-  avatar?: string;     // URL to image
-  type: 'MERCHANT' | 'PERSON';
+  id: string;
+  name: string;
+  avatar?: string; // URL
+  vpa?: string;    // e.g. 'zomato@upi'
 }
 
 export interface Transaction {
   id: string;
-  externalId: string;      // "UPI-Ref-123..." (For Story Mode details)
-  
-  amount: number;          // Stored in PAISE (e.g., ₹299 = 29900)
-  currency: 'INR';
-  
-  timestamp: string;       // ISO 8601 string: "2026-01-19T10:30:00Z"
-  
+  timestamp: string; // ISO 8601 string
   status: TransactionStatus;
   direction: TransactionDirection;
-  method: PaymentMethod;
-  
+  amount: number; // For simplicity in this demo, let's use the raw number.
+  currency: string;
   counterparty: Counterparty;
-  
-  category: string;        // "Food", "Travel", "Salary" (For icons/grouping)
-  description?: string;    // "Payment for Order #221"
+  description?: string;
+  category: TransactionCategory;
+  paymentMethod: PaymentMethod;
 }
 
-// This is for the UI later when we group by date
-export interface TransactionGroup {
-  date: string; // "2026-01-19"
+export interface DailyTransactions {
+  date: string; // YYYY-MM-DD
   transactions: Transaction[];
 }

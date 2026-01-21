@@ -1,17 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  /* FamPay Color Palette Definition */
-  --color-fam-bg: #000000;       /* Pure Black */
-  --color-fam-card: #121212;     /* Surface Grey */
-  --color-fam-accent: #F6A525;   /* Electric Orange */
-  --color-fam-text: #FFFFFF;     /* White */
-  --color-fam-muted: #9CA3AF;    /* Muted Grey */
-  --color-fam-border: #27272a;   /* Subtle Borders */
+  /* FamPay Color Palette Definition - Premium Dark Mode */
+  --color-fam-bg: #09090b;       /* Zinc 950 - Richer than pure black */
+  --color-fam-card: #18181b;     /* Zinc 900 */
+  --color-fam-accent: #f97316;   /* Orange 500 - More vibrant */
+  --color-fam-text: #fafafa;     /* Zinc 50 */
+  --color-fam-muted: #a1a1aa;    /* Zinc 400 */
+  --color-fam-border: #27272a;   /* Zinc 800 */
+  
+  --color-fam-glass: rgba(255, 255, 255, 0.05);
 
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
+
+@layer utilities {
+  .glass-card {
+    background: var(--color-fam-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .glass-panel {
+    background: rgba(24, 24, 27, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+
 
 /* Global Styles
    Note: We use standard CSS properties here to avoid "unknown class" errors 
