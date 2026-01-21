@@ -1,49 +1,106 @@
 import { Plus } from 'lucide-react';
+import { useState, useRef, MouseEvent } from 'react';
 
 export const WalletCard = () => {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [rotation, setRotation] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg rotation
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        setRotation({ x: rotateX, y: rotateY });
+    };
+
+    const handleMouseLeave = () => {
+        setRotation({ x: 0, y: 0 });
+    };
+
     return (
-        <div className="w-full relative overflow-hidden rounded-[24px] bg-[#1c1c1e] border border-white/5 aspect-[1.58/1] shadow-2xl group cursor-default select-none">
+        <div className="w-full relative perspective-[1000px] group">
+            <div
+                ref={cardRef}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                    transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+                }}
+                className="w-full relative overflow-hidden rounded-[20px] bg-black border border-[#333] shadow-2xl transition-transform duration-100 ease-out cursor-default select-none aspect-[1.58/1] md:aspect-[1.8/1]"
+            >
 
-            {/* Background Gradient Mesh */}
-            <div className="absolute inset-0 bg-gradient-to-br from-fam-bg to-fam-card z-0" />
-            <div className="absolute top-[-50%] right-[-20%] w-[300px] h-[300px] bg-fam-accent/20 rounded-full blur-[80px]" />
-            <div className="absolute bottom-[-30%] left-[-10%] w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-[60px]" />
+                {/* === CARD FACE === */}
+                {/* Dark Gold Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] via-black to-[#050505] z-0" />
 
-            {/* Content */}
-            <div className="relative z-10 h-full flex flex-col justify-between p-6">
+                {/* Decorative Blobs (FamX Colors) */}
+                <div className="absolute top-[-40%] right-[-20%] w-[200px] h-[200px] bg-[#D4AF37]/20 rounded-full blur-[60px]" /> {/* Gold */}
+                <div className="absolute bottom-[-30%] left-[-10%] w-[150px] h-[150px] bg-[#FFA500]/10 rounded-full blur-[50px]" /> {/* Orange */}
 
-                {/* Top Row */}
-                <div className="flex justify-between items-start">
-                    <div>
-                        <p className="text-fam-muted text-xs font-medium tracking-wider uppercase mb-1">Total Balance</p>
-                        <h2 className="text-3xl font-bold text-white tracking-tight">₹12,450.00</h2>
+                {/* Noise Texture Overlay */}
+                <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-0 pointer-events-none" />
+
+                {/* Content */}
+                <div className="relative z-10 h-full flex flex-col justify-between p-5 md:p-6">
+
+                    {/* Top Row: Chip & Logo */}
+                    <div className="flex justify-between items-start">
+                        <div className="w-[38px] h-[28px] rounded-[4px] border border-[#ffffff20] bg-gradient-to-br from-[#ffffff30] to-[#ffffff05] flex items-center justify-center relative overflow-hidden">
+                            <div className="absolute w-[150%] h-[1px] bg-white/20 top-1/3 -left-1/4 transform rotate-12" />
+                            <div className="absolute w-[150%] h-[1px] bg-white/20 bottom-1/3 -left-1/4 transform rotate-12" />
+                        </div>
+                        <div className="flex items-center gap-1 opacity-80">
+                            <span className="text-[10px] font-bold tracking-[0.2em] text-[#D4AF37]">PREMIUM</span>
+                        </div>
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md">
-                        <div className="w-6 h-4 border-2 border-white/40 rounded-sm relative flex items-center justify-center">
-                            <div className="w-full h-[1px] bg-white/40" />
+
+                    {/* Middle: FamX Logo */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                        <h1 className="text-2xl md:text-3xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-[#e8e8e8] to-[#999]">
+                            fam<span className="text-[#F6A525]">X</span>
+                        </h1>
+                    </div>
+
+                    {/* Bottom Row: Details */}
+                    <div className="flex items-end justify-between">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-fam-muted uppercase tracking-wider mb-0.5">Balance</span>
+                            <span className="text-xl font-bold text-white tracking-wide">₹12,450</span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            {/* Visa/Mastercard Logo Simulation */}
+                            <div className="h-4 flex -space-x-1 opacity-60 grayscale group-hover:grayscale-0 transition-all">
+                                <div className="w-4 h-4 rounded-full bg-red-500/80 mix-blend-screen" />
+                                <div className="w-4 h-4 rounded-full bg-yellow-500/80 mix-blend-screen" />
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom Row */}
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <div className="flex -space-x-2 overflow-hidden">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c1c1e] bg-gradient-to-tr from-gray-700 to-gray-600" />
-                            ))}
-                        </div>
-                    </div>
-
-                    <button className="flex items-center gap-2 bg-fam-accent text-white px-4 py-2 rounded-full font-medium text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-fam-accent/20">
-                        <Plus size={16} strokeWidth={3} />
-                        <span>Add Money</span>
-                    </button>
-                </div>
+                {/* Shine Interaction */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-overlay" />
             </div>
 
-            {/* Shine Effect Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            {/* Action Bar (Below Card) */}
+            <div className="mt-4 flex items-center justify-between px-2">
+                <div className="text-xs text-fam-muted font-medium">
+                    Tap to view details
+                </div>
+                <button className="flex items-center gap-1.5 bg-[#121212] hover:bg-[#1f1f1f] text-fam-accent border border-fam-border px-3 py-1.5 rounded-full text-[11px] font-bold transition-colors uppercase tracking-wide">
+                    <Plus size={12} strokeWidth={3} />
+                    Top Up
+                </button>
+            </div>
+
         </div>
     );
 };
