@@ -2,16 +2,15 @@ import { Transaction } from '../types';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { AlertCircle } from 'lucide-react';
 import clsx from 'clsx';
-import { generateStory } from '../utils/storyGenerator';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface TransactionRowProps {
   transaction: Transaction;
 }
 
 export const TransactionRow = ({ transaction }: TransactionRowProps) => {
-  const { counterparty, amount, status, direction, category, timestamp } = transaction;
-  const [expanded, setExpanded] = useState(false);
+  const router = useRouter();
+  const { counterparty, amount, status, direction, category } = transaction; // Removed timestamp from destruction as it's not used in this view anymore or can be accessed via transaction.timestamp if needed
 
   const isFailed = status === 'FAILED';
   const isCredit = direction === 'CREDIT';
@@ -19,12 +18,9 @@ export const TransactionRow = ({ transaction }: TransactionRowProps) => {
   return (
     <div className="relative mb-2 px-2">
       <div
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => router.push(`/transaction/${transaction.id}`)}
         className={clsx(
-          "group relative flex items-center justify-between p-4 rounded-2xl transition-all duration-300 cursor-pointer border",
-          expanded
-            ? "bg-[#121212] border-fam-border shadow-lg z-10"
-            : "bg-transparent border-transparent hover:bg-white/5"
+          "group relative flex items-center justify-between p-4 rounded-2xl transition-all duration-300 cursor-pointer border bg-transparent border-transparent hover:bg-white/5 active:scale-[0.98]"
         )}
       >
 
@@ -78,29 +74,6 @@ export const TransactionRow = ({ transaction }: TransactionRowProps) => {
           </div>
         </div>
       </div>
-
-      {/* RECEIPT STYLE STORY CARD */}
-      {expanded && (
-        <div className="mx-2 mt-[-10px] pt-4 pb-2 bg-[#0A0A0A] rounded-b-xl border-x border-b border-fam-border/50 animate-in slide-in-from-top-4 fade-in duration-300 relative z-0">
-          {/* Dashed line separator */}
-          <div className="border-t border-dashed border-fam-muted/20 mx-4 mb-3" />
-
-          <div className="px-5 pb-3">
-            <div className="flex gap-3">
-              <div className="w-0.5 self-stretch bg-fam-accent/40 rounded-full" />
-              <div>
-                <p className="text-[13px] leading-6 text-fam-muted/80">
-                  {generateStory(transaction)}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-3 pt-2 text-[10px] text-fam-muted/40 font-mono tracking-widest text-right uppercase">
-              Ref: {transaction.id.split('-')[0]} • {formatDate(timestamp)}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

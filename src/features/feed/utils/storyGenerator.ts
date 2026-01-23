@@ -14,19 +14,19 @@ export const generateStory = (transaction: Transaction): string => {
     if (direction === 'CREDIT') {
         return `You received ${formattedAmount} from ${counterparty.name} via ${paymentMethod} at ${timeString}. It has been credited to your account.`;
     }
-    
+
 
     // Debit cases
     switch (category) {
         case 'FOOD':
-            return `You paid ${formattedAmount} to ${counterparty.name} for food at ${timeString}. Hope it was delicious!`;
+            return `Bro, you dropped ${formattedAmount} at ${counterparty.name} just now. Midnight cravings or what? 🍕`;
         case 'TRAVEL':
-            return `You spent ${formattedAmount} on a ride with ${counterparty.name} at ${timeString}.`;
+            return `Zoomin' around! 🚗 You spent ${formattedAmount} on that ride with ${counterparty.name}. Hope the vibe was right.`;
         case 'SHOPPING':
-            return `You purchased items worth ${formattedAmount} at ${counterparty.name} using ${paymentMethod} at ${timeString}.`;
+            return `Retail therapy hit hard? 🛍️ You splurged ${formattedAmount} at ${counterparty.name}. Lowkey iconic behavior.`;
         case 'TRANSFER':
-            return `You transferred ${formattedAmount} to ${counterparty.name} using ${paymentMethod} at ${timeString}.`;
+            return `Sent ${formattedAmount} to ${counterparty.name}. Real ones support their homies. 💸`;
         default:
-            return `You paid ${formattedAmount} to ${counterparty.name} at ${timeString} using ${paymentMethod}.`;
+            return `You paid ${formattedAmount} to ${counterparty.name}. Wallet's feeling lighter, but you do you. ✨`;
     }
 };

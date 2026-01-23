@@ -90,16 +90,7 @@ export const WalletCard = () => {
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-overlay" />
             </div>
 
-            {/* Action Bar (Below Card) */}
-            <div className="mt-4 flex items-center justify-between px-2">
-                <div className="text-xs text-fam-muted font-medium">
-                    Tap to view details
-                </div>
-                <button className="flex items-center gap-1.5 bg-[#121212] hover:bg-[#1f1f1f] text-fam-accent border border-fam-border px-3 py-1.5 rounded-full text-[11px] font-bold transition-colors uppercase tracking-wide">
-                    <Plus size={12} strokeWidth={3} />
-                    Top Up
-                </button>
-            </div>
+
 
         </div>
     );

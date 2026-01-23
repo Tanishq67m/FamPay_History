@@ -56,6 +56,8 @@ export const generateTransaction = (id: string, date: Date): Transaction => {
  */
 export const generateMockTransactions = (count: number = 100): Transaction[] => {
     const transactions: Transaction[] = [];
+    // Seed faker to ensure deterministic data across client/server component renders or reloads
+    faker.seed(123);
     const now = new Date();
 
     for (let i = 0; i < count; i++) {
